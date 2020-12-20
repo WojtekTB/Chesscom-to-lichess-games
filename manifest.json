@@ -1,0 +1,13 @@
+{
+  "manifest_version": 2,
+  "name": "Chess.com+",
+  "version": "0.1",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.chess.com/live/game/*"
+      ],
+      "js": ["jquerry.js", "content.js"]
+    }
+  ]
+}
