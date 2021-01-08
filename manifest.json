@@ -5,9 +5,13 @@
   "content_scripts": [
     {
       "matches": [
-        "https://www.chess.com/live/game/*"
+        "https://www.chess.com/live/game/*",
+        "https://lichess.org/*"
       ],
-      "js": ["jquerry.js", "content.js"]
+      "js": [
+        "jquerry.js",
+        "content.js"
+      ]
     }
   ]
 }
