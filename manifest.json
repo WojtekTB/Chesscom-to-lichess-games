@@ -5,8 +5,7 @@
   "content_scripts": [
     {
       "matches": [
-        "https://www.chess.com/live/game/*",
-        "https://lichess.org/*"
+        "https://www.chess.com/live/game/*"
       ],
       "js": [
         "jquerry.js",
