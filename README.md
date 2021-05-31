@@ -22,4 +22,4 @@ Step 5: Press the [Load Unpacked] button and select the folder with the extensio
 ![image](https://user-images.githubusercontent.com/34536619/120173236-ae755380-c1b8-11eb-9e16-a909e0f69c2e.png)
 
 You are good to go! Press the extension icon on any Chess.com game to have it import your game into lichess!
-Uploading Screen Recording 2021-05-31 at 2.12.19 AM.mov…
+https://user-images.githubusercontent.com/34536619/120173488-eda3a480-c1b8-11eb-9746-2ca69dd95032.mov
