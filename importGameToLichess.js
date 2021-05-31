@@ -1,20 +1,33 @@
+if (!window.location.href.includes("chess.com/game/live")) {
+    alert("You are not on chess.com! Press me when you are viewing the game you'd like to analyze!")
+    throw new Error("Wrong website");
+}
+
 document.getElementsByClassName("icon-font-chess share daily-game-footer-icon")[0].click();
 setTimeout(() => {
     document.getElementsByClassName("board-tab-item-underlined-component share-menu-tab-selector-tab")[0].click();
     setTimeout(() => {
         let gamePGN = document.getElementsByClassName("form-textarea-component share-menu-tab-pgn-textarea")[0].value;
+
+        document.getElementsByClassName("icon-font-chess x icon-font-secondary")[0].click();
+
+        if (!gamePGN.trim()) {
+            alert("Not a valid PGN! Make sure you are on chess.com/games! If this is not correct please contact the creator.")
+            return;
+        }
+
         lichessImportUrl = "https://lichess.org/api/import"
         let requestData = {pgn: gamePGN};
         postData(lichessImportUrl, requestData)
             .then((response) => {
                 let url = response["url"] ? response["url"] : "";
                 if (url) {
-                    window.open(url);
-                } else alert("Could not import game")
+                    let lichessGameWindow = window.open(url);
+                } else alert("Could not import game");
 
             });
-    }, 50);
-}, 50);
+    }, 1);
+}, 1);
 
 
 async function postData(url = '', data = {}) {
