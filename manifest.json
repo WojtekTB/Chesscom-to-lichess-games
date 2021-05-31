@@ -12,6 +12,7 @@
     "default_icon": "logo.png"
   },
   "permissions": [
-    "activeTab"
+    "activeTab",
+    "https://lichess.org/*"
   ]
 }
