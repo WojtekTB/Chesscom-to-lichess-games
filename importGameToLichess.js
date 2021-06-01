@@ -40,6 +40,9 @@
                         let lichessGameWindow = window.open(url);
                     } else alert("Could not import game");
 
+                }).catch((e) => {
+                    alert("Error getting response from lichess.org");
+                    throw new Error("Response error");
                 });
         }, 1);
     }, 1);
