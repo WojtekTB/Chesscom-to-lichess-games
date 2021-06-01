@@ -37,6 +37,8 @@ You are good to go! Press the extension icon on any Chess.com game to have it im
 Q: Can you run this on Mozilla FireFox?  
 A: Yes! You can actually install it on FireFox and it should work as inteded.
 
+Q: Can you run this on Microsoft Edge?  
+A: Technically Microsoft Edge supports chrome extensions, but I have not tested it.
 
 Q: Does this help someone cheat?  
 A: No, you can only import and analyse finished games.
@@ -64,3 +66,7 @@ A: Make a pull request with your code! I will review it and if it is good I will
 
 Q: Why is the icon a unicorn?  
 A: idk I just picked a random logo image for now
+
+
+Q: Dpes this work on other chess variants such as "Atomic Chess"?  
+A: Yes! This should work as long as both websites support your chess variant.
