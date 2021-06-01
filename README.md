@@ -1,6 +1,6 @@
 
 ## **What does this do?**
- - It is a chrome extension to import chess.com games to lichess.org in one click!
+ - It is a chrome AND firefox extension to import chess.com games to lichess.org in one click!
 
 ## **Why?**
  - Lichess has free computer analysis that they run; however, there is a 25 per day limit.
