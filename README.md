@@ -32,6 +32,7 @@ You are good to go! Press the extension icon on any Chess.com game to have it im
 
 
 **FAQ**
+
 Q: Can you run this on Mozilla FireFox?
 A: Yes! You can actually install it on FireFox and it should work as inteded.
 
