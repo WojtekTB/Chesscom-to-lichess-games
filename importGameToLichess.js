@@ -1,6 +1,10 @@
-if (!window.location.href.includes("chess.com/game/live")) {
+if (!window.location.href.includes("chess.com")) {
     alert("You are not on chess.com! Press me when you are viewing the game you'd like to analyze!")
     throw new Error("Wrong website");
+}
+if (!window.location.href.includes("chess.com/game/live")) {
+    alert("You are not on viewing a game! Press me when you are viewing the game you'd like to analyze! (when url contains chess.com/game/live)")
+    throw new Error("Not on game");
 }
 
 document.getElementsByClassName("icon-font-chess share daily-game-footer-icon")[0].click();
