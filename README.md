@@ -68,5 +68,5 @@ Q: Why is the icon a unicorn?
 A: idk I just picked a random logo image for now
 
 
-Q: Dpes this work on other chess variants such as "Atomic Chess"?  
+Q: Does this work on other chess variants such as "Atomic Chess"?  
 A: Yes! This should work as long as both websites support your chess variant.
