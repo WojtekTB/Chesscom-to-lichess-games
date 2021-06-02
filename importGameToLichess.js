@@ -1,26 +1,26 @@
 (function () {//wrapping the whole function in a anon function to ensure that the variables do not persist
-//website check
+    //website check
     if (!window.location.href.includes("chess.com")) {
         alert("You are not on chess.com! Press me when you are viewing the game you'd like to analyze!")
         throw new Error("Wrong website");
     }
-//url on game check
+    //url on game check
     if (!window.location.href.includes("chess.com/game/live") &&
         !window.location.href.includes("chess.com/live#g=")) {
         alert("You are not on viewing a game! Press me when you are viewing the game you'd like to analyze! (when url contains chess.com/game/live)")
         throw new Error("Not on game");
     }
 
-//find and press the share button
+    //find and press the share button
     let shareButton = document.getElementsByClassName("icon-font-chess share daily-game-footer-icon")[0];
     if (!shareButton) {
         shareButton = document.getElementsByClassName("icon-font-chess share live-game-buttons-button")[0];
     }
-    if(!shareButton) {
+    if (!shareButton) {
         // in case of chess.com/live#g=
         shareButton = document.getElementsByClassName("icon-font-chess share game-buttons-button")[0];
     }
-    if(!shareButton) {
+    if (!shareButton) {
         alert("Valid sharable PGN not found");
         throw new Error("No sharable PGN");
     }
@@ -50,9 +50,9 @@
                     } else alert("Could not import game");
 
                 }).catch((e) => {
-                    alert("Error getting response from lichess.org");
-                    throw new Error("Response error");
-                });
+                alert("Error getting response from lichess.org");
+                throw new Error("Response error");
+            });
         }, 1);
     }, 1);
 })();
