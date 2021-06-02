@@ -1,6 +1,6 @@
 
 Extension pages:  
-[Firefox add-on] (https://addons.mozilla.org/en-US/firefox/addon/chess-com-to-lichess/?utm_source=addons.mozilla.org&utm_medium=referral&utm_content=search)
+[Firefox add-on](https://addons.mozilla.org/en-US/firefox/addon/chess-com-to-lichess/?utm_source=addons.mozilla.org&utm_medium=referral&utm_content=search)
 
 ## **What does this do?**
  - It is a chrome AND firefox extension to import chess.com games to lichess.org in one click!
