@@ -6,7 +6,7 @@ Lichess offers free computer analysis (there is a 35 per day limit).
 
 ## How do I install it?
 ### Firefox
-[Go here](https://addons.mozilla.org/en-US/firefox/addon/chess-com-to-lichess/?utm_source=addons.mozilla.org&utm_medium=referral&utm_content=search)
+[Go here](https://addons.mozilla.org/en-US/firefox/addon/chess-com-to-lichess/)
 
 ### Chrome
 - Step 1: Download the extension files:
@@ -37,10 +37,14 @@ You are good to go! Press the extension icon on any Chess.com game to have it im
 
 ## FAQ
 **Q: Can you run this on Mozilla Firefox?**  
-A: Yes! You can actually install it on Firefox and it should work as inteded.
+A: Yes! You can install it from [here](#firefox).
+
+**Q: What should I do if the Firefox extension doesn't work and shows "Firefox prevented this site from opening a pop-up window"?**
+A: You need to click on Options and select "Allow pop-ups" for enabling this always or select "Show" for enabling this one time.
+![firefox_extension_popup](https://user-images.githubusercontent.com/74758351/120597028-231eeb00-c462-11eb-8c49-a80605dea382.png)
 
 **Q: Can you run this on Microsoft Edge?**  
-A: Technically Microsoft Edge supports chrome extensions, but I have not tested it.
+A: Yes, the method described [here](#chrome) works as intended.
 
 **Q: Does this help someone cheat?**  
 A: No, you can only import and analyse finished games.
@@ -64,7 +68,7 @@ I do not think this is a major problem for Lichess; however, if you find that th
 I understand and you are more than welcome to not use it.
 
 **Q: I want to participate! How do I add my code to the extensions?**  
-A: Make a pull request with your code! I will review it and if it is good I will push it to master!
+A: Make a pull request with your code! I will review it and if it is good I will push it to main!
 
 **Q: Why is the icon a unicorn?**  
 A: idk I just picked a random logo image for now
