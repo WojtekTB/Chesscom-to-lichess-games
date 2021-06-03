@@ -30,10 +30,6 @@ A: Yes, the method described [here](#chrome) works as intended.
 **Q: Does this help someone cheat?**  
 A: No, you can only import and analyse finished games.
 
-**Q: Why is it not on the chrome web store? Are you trying to hide something?**  
-A: To put an extension up on a chrome web store, I would need to make a developer account there and pay $5.
-As this was a weekend project, I didn't want to spend $5 on it. However, I will put it up there soon-ish.
-
 **Q: Why not just play on Lichess.org? What is the point of playing on chess.com if you will just import all the games?**  
 A: I just prefer to play on chess.com. I do also play on Lichess.org but chess.com is my main account.
 Since I still mostly use the Lichess tools,
