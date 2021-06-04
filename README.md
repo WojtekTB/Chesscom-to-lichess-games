@@ -11,10 +11,13 @@ Lichess offers free computer analysis (there is a 35 per day limit).
 ### Firefox
 [Go here](https://addons.mozilla.org/en-US/firefox/addon/chess-com-to-lichess/)
 
-### How to use it?
-Go to a chess.com game that is completed, and press the extension button.  
-![chesscom-to-lichess-example](https://user-images.githubusercontent.com/34536619/120174245-baade080-c1b9-11eb-8aa8-f21bd3d3bc89.gif)
+## How to use it?
+Go to a chess.com game that is completed, and press the extension button or the [IMPORT] button.  
+![chesscom-to-lichess-example-0 4](https://user-images.githubusercontent.com/34536619/120743120-373c0a00-c4ad-11eb-9d28-ab38c06e5fba.gif)
 
+## Donations
+This is 100% optional, I will always keep this extension free and open source. Any donations I do receive, I will send 60% of it to lichess.  
+[PayPal](paypal.me/chesscomtolichess)
 
 ## FAQ
 **Q: Can you run this on Mozilla Firefox?**  
@@ -46,9 +49,6 @@ I understand and you are more than welcome to not use it.
 
 **Q: I want to participate! How do I add my code to the extensions?**  
 A: Make a pull request with your code! I will review it and if it is good I will push it to main!
-
-**Q: Why is the icon a unicorn?**  
-A: idk I just picked a random logo image for now
 
 **Q: Does this work for other chess variants such as "Atomic Chess"?**  
 A: Yes! This should work as long as both websites support your chess variant.
