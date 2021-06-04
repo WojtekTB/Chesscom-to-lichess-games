@@ -1,19 +1,28 @@
 (function () {
     //check if on right website
     let currentUrl = window.location.href;
+
+
     if (!currentUrl.includes("chess.com/game/live") && !currentUrl.includes("chess.com/live#g=")) {
         //don't do anything if not on live chess
-        console.log("bad")
+        console.log("bad url")
         return;
     }
     let buttonInterval = setInterval(() => {
         //try to get button until the page loads
         let buttonContainer = document.getElementsByClassName("daily-game-footer-middle")[0];
+        if (!buttonContainer) buttonContainer = document.getElementsByClassName("move-list-buttons-component live-game-buttons-arrows")[0];
         if (!buttonContainer) {
+            return;
+        }
+        //check if we already added an instance of the button to the web page
+        if (buttonContainer.getElementsByClassName("ImportToLichessButton").length > 0) {
+            clearInterval(buttonInterval);
             return;
         }
         let analyseButton = document.createElement("button");
         //separating font settings and other style settings to be cleaner
+        analyseButton.className = "ImportToLichessButton";
         let buttonStyle = "background-color: #7fa650;\n" +
             "  white-space: nowrap;\n" +
             "  color: #fff;\n" +
@@ -36,7 +45,7 @@
         })
         //clear the interval
         clearInterval(buttonInterval);
-    }, 500)
+    }, 500);
 
 })();
 
@@ -63,8 +72,8 @@ function importGame() {
         shareButton = document.getElementsByClassName("icon-font-chess share game-buttons-button")[0];
     }
     if (!shareButton) {
-        alert("Valid sharable PGN not found");
-        throw new Error("No sharable PGN");
+        alert("The game is probably not finished. Try clicking me when the game is over.");
+        throw new Error("No share button");
     }
     shareButton.click();
     setTimeout(() => {
