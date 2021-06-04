@@ -9,7 +9,8 @@
     ]
   },
   "browser_action": {
-    "default_icon": "logo.png"
+    "default_icon": "logo.png",
+    "default_popup": "donation.html"
   },
   "permissions": [
     "activeTab",
