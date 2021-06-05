@@ -1,6 +1,6 @@
 {
   "name": "Chess.com-to-Lichess",
-  "version": "0.45",
+  "version": "0.5",
   "manifest_version": 2,
   "description": "Allows users to import Chess.com games into Lichess with one click",
   "background": {
@@ -18,6 +18,7 @@
     "https://lichess.org/*"
   ],
   "icons": {
-    "48": "logo48.png"
+    "48": "logo48.png",
+    "128": "logo128.png"
   }
 }

@@ -3,7 +3,9 @@
     let currentUrl = window.location.href;
 
 
-    if (!currentUrl.includes("chess.com/game/live") && !currentUrl.includes("chess.com/live#g=")) {
+    if (!currentUrl.includes("chess.com/game/live")
+        && !currentUrl.includes("chess.com/live#g=")
+        && !currentUrl.includes("chess.com/game/daily")) {
         //don't do anything if not on live chess
         console.log("bad url")
         return;
@@ -12,6 +14,8 @@
         //try to get button until the page loads
         let buttonContainer = document.getElementsByClassName("daily-game-footer-middle")[0];
         if (!buttonContainer) buttonContainer = document.getElementsByClassName("move-list-buttons-component live-game-buttons-arrows")[0];
+        if (!buttonContainer) buttonContainer = document.getElementsByClassName("daily-game-footer-middle")[0];
+
         if (!buttonContainer) {
             return;
         }
@@ -56,8 +60,9 @@ function importGame() {
         throw new Error("Wrong website");
     }
     //url on game check
-    if (!window.location.href.includes("chess.com/game/live") &&
-        !window.location.href.includes("chess.com/live#g=")) {
+    if (!window.location.href.includes("chess.com/game/live")
+        && !window.location.href.includes("chess.com/live#g=")
+        && !window.location.href.includes("chess.com/game/daily")) {
         alert("You are not on viewing a game! Press me when you are viewing the game you'd like to analyze! (when url contains chess.com/game/live)")
         throw new Error("Not on game");
     }
@@ -71,6 +76,11 @@ function importGame() {
         // in case of chess.com/live#g=
         shareButton = document.getElementsByClassName("icon-font-chess share game-buttons-button")[0];
     }
+    if (!shareButton) {
+        // in case of chess.com/game/daily
+        shareButton = document.getElementsByClassName("icon-font-chess share daily-game-footer-icon")[0];
+    }
+
     if (!shareButton) {
         alert("The game is probably not finished. Try clicking me when the game is over.");
         throw new Error("No share button");
