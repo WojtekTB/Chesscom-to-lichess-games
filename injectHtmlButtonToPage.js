@@ -99,6 +99,14 @@ function importGame() {
                 alert("Not a valid PGN! Make sure you are on chess.com/games! If this is not correct please contact the creator.")
                 return;
             }
+
+            //make sure that the game is finished in some way
+            if(!gamePGN.includes("[Termination")){
+                //don't import unfinished games, personal policy
+                alert("Can only import finished games!");
+                return;
+            }
+
             let lichessImportUrl = "https://lichess.org/api/import"
             let requestData = {pgn: gamePGN};
             //send a post request to lichess to import a game
