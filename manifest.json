@@ -1,6 +1,6 @@
 {
   "name": "Chess.com-to-Lichess",
-  "version": "0.5",
+  "version": "0.55",
   "manifest_version": 2,
   "description": "Allows users to import Chess.com games into Lichess with one click",
   "background": {
