@@ -93,7 +93,13 @@ function importGame() {
             //find pgn window and copy the text value
             let gamePGN = document.getElementsByClassName("form-textarea-component share-menu-tab-pgn-textarea")[0].value;
             //close the share window
-            document.getElementsByClassName("icon-font-chess x icon-font-secondary")[0].click();
+            let closeButton = document.getElementsByClassName("icon-font-chess x icon-font-secondary")[0];
+            if (!closeButton) {
+                closeButton = document.getElementsByClassName("icon-font-chess x share-menu-close-icon")[0];
+            }
+            if (closeButton) {
+                closeButton.click();
+            }
             //make sure the game pgn has value, if not, need to stop
             if (!gamePGN.trim()) {
                 alert("Not a valid PGN! Make sure you are on chess.com/games! If this is not correct please contact the creator.")
@@ -101,7 +107,7 @@ function importGame() {
             }
 
             //make sure that the game is finished in some way
-            if(!gamePGN.includes("[Termination")){
+            if (!gamePGN.includes("[Termination")) {
                 //don't import unfinished games, personal policy
                 alert("Can only import finished games!");
                 return;
