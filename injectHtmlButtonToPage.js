@@ -15,6 +15,7 @@
         let buttonContainer = document.getElementsByClassName("daily-game-footer-middle")[0];
         if (!buttonContainer) buttonContainer = document.getElementsByClassName("move-list-buttons-component live-game-buttons-arrows")[0];
         if (!buttonContainer) buttonContainer = document.getElementsByClassName("daily-game-footer-middle")[0];
+        if (!buttonContainer) buttonContainer = document.getElementsByClassName("live-game-buttons-button-row")[0];
 
         if (!buttonContainer) {
             return;
@@ -80,6 +81,10 @@ function importGame() {
         // in case of chess.com/game/daily
         shareButton = document.getElementsByClassName("icon-font-chess share daily-game-footer-icon")[0];
     }
+    if (!shareButton) {
+        // in case of chess.com/game/live
+        shareButton = document.getElementsByClassName("icon-font-chess share daily-game-footer-button")[0];
+    }
 
     if (!shareButton) {
         alert("The game is probably not finished. Try clicking me when the game is over.");
@@ -91,7 +96,7 @@ function importGame() {
         document.getElementsByClassName("board-tab-item-underlined-component share-menu-tab-selector-tab")[0].click();
         setTimeout(() => {
             //find pgn window and copy the text value
-            let gamePGN = document.getElementsByClassName("form-textarea-component share-menu-tab-pgn-textarea")[0].value;
+            let gamePGN = document.getElementsByClassName("share-menu-tab-pgn-textarea")[0].value;
             //close the share window
             let closeButton = document.getElementsByClassName("icon-font-chess x icon-font-secondary")[0];
             if (!closeButton) {
@@ -129,7 +134,7 @@ function importGame() {
                 throw new Error("Response error");
             });
         }, 1);
-    }, 1);
+    }, 500);
 
 }
 
