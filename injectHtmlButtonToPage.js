@@ -87,6 +87,11 @@ function importGame() {
     }
 
     if (!shareButton) {
+        // in other cases, try to find the button by aria-label "Share"
+        shareButton = document.querySelector('button[aria-label="Share"]');
+    }
+
+    if (!shareButton) {
         alert("The game is probably not finished. Try clicking me when the game is over.");
         throw new Error("No share button");
     }
