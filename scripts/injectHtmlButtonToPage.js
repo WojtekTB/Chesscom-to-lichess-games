@@ -142,7 +142,6 @@ async function requestLichessURL(pgn, callback) {
     let url = "https://lichess.org/api/import";
     chrome.runtime.sendMessage(
         {
-            contentScriptQuery: "postData", 
             data: {pgn: pgn}, 
             url: url
         }, function (response) {
