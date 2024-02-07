@@ -2,12 +2,11 @@
     //check if on right website
     let currentUrl = window.location.href;
 
-
     if (!currentUrl.includes("chess.com/game/live")
         && !currentUrl.includes("chess.com/live#g=")
         && !currentUrl.includes("chess.com/game/daily")) {
         //don't do anything if not on live chess
-        console.log("bad url")
+        console.log("bad url");
         return;
     }
     let buttonInterval = setInterval(() => {
@@ -16,7 +15,9 @@
         if (!buttonContainer) buttonContainer = document.getElementsByClassName("move-list-buttons-component live-game-buttons-arrows")[0];
         if (!buttonContainer) buttonContainer = document.getElementsByClassName("daily-game-footer-middle")[0];
         if (!buttonContainer) buttonContainer = document.getElementsByClassName("live-game-buttons-button-row")[0];
+        if (!buttonContainer) buttonContainer = document.getElementsByClassName("live-game-buttons-component")[0];
 
+        
         if (!buttonContainer) {
             return;
         }
@@ -123,20 +124,13 @@ function importGame() {
                 return;
             }
 
-            let lichessImportUrl = "https://lichess.org/api/import"
-            let requestData = {pgn: gamePGN};
-            //send a post request to lichess to import a game
-            postData(lichessImportUrl, requestData)
-                .then((response) => {
-                    //on response, open the lichess game url window in a new tab 
-                    let url = response["url"] ? response["url"] : "";
-                    if (url) {
-                        let lichessGameWindow = window.open(url);
-                    } else alert("Could not import game");
 
-                }).catch((e) => {
-                alert("Error getting response from lichess.org");
-                throw new Error("Response error");
+            //send a post request to lichess to import a game
+            requestLichessURL(gamePGN, (url) => {
+                if (url) {
+                    let lichessGameWindow = window.open(url);
+                } else alert("Could not import game");
+
             });
         }, 1);
     }, 500);
@@ -144,19 +138,19 @@ function importGame() {
 }
 
 //async post function
-async function postData(url = '', data = {}) {
-    var formBody = [];
-    for (var property in data) {
-        var encodedKey = encodeURIComponent(property);
-        var encodedValue = encodeURIComponent(data[property]);
-        formBody.push(encodedKey + "=" + encodedValue);
-    }
-    const response = await fetch(url, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: formBody
-    });
-    return response.json(); // parses JSON response into native JavaScript objects
+async function requestLichessURL(pgn, callback) {
+    let url = "https://lichess.org/api/import";
+    chrome.runtime.sendMessage(
+        {
+            contentScriptQuery: "postData", 
+            data: {pgn: pgn}, 
+            url: url
+        }, function (response) {
+            if (response != undefined && response != "") {
+                callback(response);
+            }
+            else {
+                callback(null);
+            }
+        });
 }
