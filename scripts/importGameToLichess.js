@@ -41,7 +41,7 @@
             let lichessImportUrl = "https://lichess.org/api/import"
             let requestData = {pgn: gamePGN};
             //send a post request to lichess to import a game
-            postData(lichessImportUrl, requestData)
+            requestLichessURL(lichessImportUrl, requestData)
                 .then((response) => {
                     //on response, open the lichess game url window in a new tab 
                     let url = response["url"] ? response["url"] : "";
@@ -58,7 +58,7 @@
 })();
 
 //async post function
-async function postData(url = '', data = {}) {
+async function requestLichessURL(url = '', data = {}) {
     var formBody = [];
     for (var property in data) {
         var encodedKey = encodeURIComponent(property);
