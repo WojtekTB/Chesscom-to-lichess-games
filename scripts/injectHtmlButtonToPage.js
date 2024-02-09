@@ -132,6 +132,8 @@ async function importGame() {
     requestLichessURL(gamePGN, (url) => {
         if (url) {
             let lichessGameWindow = window.open(`${url}?from_chesscom=true`);
+            localStorage.setItem('extensionRatingWindowClosed', localStorage.getItem('extensionRatingWindowClosed')-1);
+            showRatingWindow();
         } else alert("Could not import game");
 
     });
@@ -178,6 +180,55 @@ function findElementByClassName(className, maxAttempts = Infinity, interval = 10
     });
   }
 
+  function showRatingWindow() {
+    if (localStorage.getItem('extensionRatingWindowClosed') > 0) {
+        return; // If so, do not show the rating window again
+    }
+    // Create a div element for the rating window
+    const ratingWindow = document.createElement('div');
+    ratingWindow.style.position = 'fixed';
+    ratingWindow.style.top = '40px'; // Adjust the top position as needed
+    ratingWindow.style.right = '10px'; // Adjust the right position as needed
+    ratingWindow.style.width = '30vw';
+    ratingWindow.style.backgroundColor = '#fff';
+    ratingWindow.style.padding = '20px';
+    ratingWindow.style.border = '1px solid #ccc';
+    ratingWindow.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+    ratingWindow.style.textAlign = 'center';
+    ratingWindow.style.zIndex = 99999;
+    ratingWindow.innerHTML = `
+        <div style="display: inline-block; text-align: center;">
+        <p>Hey!</p>
+        <p>My name is Victor. I am a college student who made the Lichess-to-Chesscom extension! </p>
+        <p>I made it on my own time entirely for free.</p>
+        <p>I would really appreciate it if you could rate it on google chrome store!</p>
+            <div style="display: inline-block; text-align: left;">
+                <p>Thank you!</p>
+            </div>
+        </div>
+      <button id="rateButton" style="padding: 10px 20px; background-color: #4CAF50; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Rate Now</button>
+      <button id="dismissButton" style="margin-left: 10px; padding: 10px 20px; background-color: #ccc; color: #333; border: none; border-radius: 5px; cursor: pointer;">Dismiss</button>
+    `;
+  
+    // Append the rating window to the body
+    document.body.appendChild(ratingWindow);
+  
+    // Add event listeners to the rate and dismiss buttons
+    document.getElementById('rateButton').addEventListener('click', function() {
+      // Open the Chrome Web Store page for your extension where users can leave a review
+      window.open('https://chromewebstore.google.com/detail/chesscom-to-lichess/jblnpdempinkonbjejolagghdofaipjf/reviews', '_blank');
+      // You should replace 'your-extension-id' with the actual ID of your extension
+      ratingWindow.remove(); // Remove the rating window after opening the review page
+      localStorage.setItem('extensionRatingWindowClosed', 999999999);
+    });
+  
+    document.getElementById('dismissButton').addEventListener('click', function() {
+      // Dismiss the window without taking any action
+      ratingWindow.remove();
+      localStorage.setItem('extensionRatingWindowClosed', 10+Math.random() * 10);
+    });
+  }
+
 if(isChessCom){
     // store url on load
     let currentPage = window.location.href;
@@ -190,5 +241,9 @@ if(isChessCom){
             checkToShowButton();
         }
     }, 500);
-    checkToShowButton();   
+    checkToShowButton(); 
+    showRatingWindow();  
+    if(localStorage.getItem('extensionRatingWindowClosed') === null){
+        localStorage.setItem('extensionRatingWindowClosed', 3);
+    }
 }
