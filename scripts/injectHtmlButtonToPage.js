@@ -1,14 +1,8 @@
-// store url on load
-let currentPage = window.location.href;
-
-// listen for changes, the event listeners don't seem to work
-setInterval(()=>{
-    if (currentPage != window.location.href)
-    {
-        currentPage = window.location.href;
-        checkToShowButton();
-    }
-}, 500);
+let isChessCom = true;
+if(!window.location.href.includes("chess.com")){
+    // don't run this code if not chess.com
+    isChessCom = false;
+}
 
 function checkToShowButton(){
     const currentUrl = window.location.href;
@@ -137,7 +131,7 @@ async function importGame() {
     //send a post request to lichess to import a game
     requestLichessURL(gamePGN, (url) => {
         if (url) {
-            let lichessGameWindow = window.open(url);
+            let lichessGameWindow = window.open(`${url}?from_chesscom=true`);
         } else alert("Could not import game");
 
     });
@@ -183,4 +177,18 @@ function findElementByClassName(className, maxAttempts = Infinity, interval = 10
       search();
     });
   }
-  checkToShowButton();
+
+if(isChessCom){
+    // store url on load
+    let currentPage = window.location.href;
+
+    // listen for changes, the event listeners don't seem to work
+    setInterval(()=>{
+        if (currentPage != window.location.href)
+        {
+            currentPage = window.location.href;
+            checkToShowButton();
+        }
+    }, 500);
+    checkToShowButton();   
+}
