@@ -135,7 +135,6 @@ async function importGame() {
             localStorage.setItem('extensionRatingWindowClosed', localStorage.getItem('extensionRatingWindowClosed')-1);
             showRatingWindow();
         } else alert("Could not import game");
-
     });
 }
 
