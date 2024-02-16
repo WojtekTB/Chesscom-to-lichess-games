@@ -51,17 +51,24 @@ function injectImportButton() {
 }
 
 async function importGame() {
+    const gameURL = window.location.href.trim();
     //website check
-    if (!window.location.href.includes("chess.com")) {
+    if (!gameURL.includes("chess.com")) {
         alert("You are not on chess.com! Press me when you are viewing the game you'd like to analyze!")
         throw new Error("Wrong website");
     }
     //url on game check
-    if (!window.location.href.includes("chess.com/game/live")
-        && !window.location.href.includes("chess.com/live#g=")
-        && !window.location.href.includes("chess.com/game/daily")) {
+    if (!gameURL.includes("chess.com/game/live")
+        && !gameURL.includes("chess.com/live#g=")
+        && !gameURL.includes("chess.com/game/daily")) {
         alert("You are not on viewing a game! Press me when you are viewing the game you'd like to analyze! (when url contains chess.com/game/live)")
         throw new Error("Not on game");
+    }
+
+    if(localStorage.getItem(gameURL)){
+        // this game was cached before!
+        window.open(localStorage.getItem(gameURL));
+        return;
     }
 
     //find and press the share button
@@ -131,8 +138,10 @@ async function importGame() {
     //send a post request to lichess to import a game
     requestLichessURL(gamePGN, (url) => {
         if (url) {
-            let lichessGameWindow = window.open(`${url}?from_chesscom=true`);
+            const lichessImportedGameURL = `${url}?from_chesscom=true`; 
+            const lichessGameWindow = window.open(lichessImportedGameURL);
             localStorage.setItem('extensionRatingWindowClosed', localStorage.getItem('extensionRatingWindowClosed')-1);
+            localStorage.setItem(gameURL, lichessImportedGameURL);
             showRatingWindow();
         } else alert("Could not import game");
     });
