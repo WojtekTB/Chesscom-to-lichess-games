@@ -227,7 +227,7 @@ function findElementByClassName(className, maxAttempts = Infinity, interval = 10
       window.open('https://chromewebstore.google.com/detail/chesscom-to-lichess/jblnpdempinkonbjejolagghdofaipjf/reviews', '_blank');
       // You should replace 'your-extension-id' with the actual ID of your extension
       ratingWindow.remove(); // Remove the rating window after opening the review page
-      localStorage.setItem('extensionRatingWindowClosed', 999999999);
+      localStorage.setItem('extensionRatingWindowClosed', Infinity);
     });
   
     document.getElementById('dismissButton').addEventListener('click', function() {
