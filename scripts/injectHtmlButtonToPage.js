@@ -5,18 +5,23 @@ if(!window.location.href.includes("chess.com")){
 }
 
 function checkToShowButton(){
-    const currentUrl = window.location.href;
     if(!document.importToLichessButton){
         document.importToLichessButton = injectImportButton();
     }
-    if (!currentUrl.includes("chess.com/game/live")
-        && !currentUrl.includes("chess.com/live#g=")
-        && !currentUrl.includes("chess.com/game/daily")) {
-        //don't do anything if not on live chess
-        document.importToLichessButton.hidden = true;
+    showRatingWindow();
+    const ratingWindow = getRatingWindow();
+    if (shouldShowImportButton()) {
+        document.importToLichessButton.hidden = false;
+        if(ratingWindow){
+            ratingWindow.hidden = false;
+        }
         return;
     }
-    document.importToLichessButton = true;
+    //don't do anything if not on live chess
+    document.importToLichessButton.hidden = true;
+    if(ratingWindow){
+        ratingWindow.hidden = true;
+    }
 }
 
 function injectImportButton() {
@@ -32,7 +37,7 @@ function injectImportButton() {
     
     // Style the button
     analyseButton.style.position = "fixed";
-    analyseButton.style.top = "10px"; // Adjust the top position as needed
+    analyseButton.style.top = "5%"; // Adjust the top position as needed
     analyseButton.style.right = "10px"; // Adjust the right position as needed
     analyseButton.style.backgroundColor = "#363732"; // gray color
     analyseButton.style.color = "#C7C7C5";
@@ -41,6 +46,7 @@ function injectImportButton() {
     analyseButton.style.borderRadius = "5px";
     analyseButton.style.cursor = "pointer";
     analyseButton.style.fontSize = "16px";
+    analyseButton.style.zIndex = 9999;
     analyseButton.innerHTML += "Lichess Analysis"
     document.body.appendChild(analyseButton);
     analyseButton.addEventListener("click", () => {
@@ -50,27 +56,21 @@ function injectImportButton() {
     return analyseButton;
 }
 
-async function importGame() {
-    const gameURL = window.location.href.trim();
-    //website check
-    if (!gameURL.includes("chess.com")) {
-        alert("You are not on chess.com! Press me when you are viewing the game you'd like to analyze!")
-        throw new Error("Wrong website");
+function shouldShowImportButton(){
+    const currentUrl = window.location.href;
+    if(currentUrl.includes("chess.com/game/live")
+    || currentUrl.includes("chess.com/live#g=")
+    || currentUrl.includes("chess.com/game/daily")){
+        // if you are on live game but don't have a share button, don't show
+        if(currentUrl.includes("chess.com/game/live") && !getShareButton()){
+            return false;
+        }
+        return true;
     }
-    //url on game check
-    if (!gameURL.includes("chess.com/game/live")
-        && !gameURL.includes("chess.com/live#g=")
-        && !gameURL.includes("chess.com/game/daily")) {
-        alert("You are not on viewing a game! Press me when you are viewing the game you'd like to analyze! (when url contains chess.com/game/live)")
-        throw new Error("Not on game");
-    }
+    return false;
+}
 
-    if(localStorage.getItem(gameURL)){
-        // this game was cached before!
-        window.open(localStorage.getItem(gameURL));
-        return;
-    }
-
+function getShareButton(){
     //find and press the share button
     const shareButtonClasses = [
         "icon-font-chess share daily-game-footer-icon",
@@ -91,6 +91,32 @@ async function importGame() {
         // in other cases, try to find the button by aria-label "Share"
         shareButton = document.querySelector('button[aria-label="Share"]');
     }
+    return shareButton;
+}
+
+async function importGame() {
+    const gameURL = window.location.href.trim();
+    //website check
+    if (!gameURL.includes("chess.com")) {
+        alert("You are not on chess.com! Press me when you are viewing the game you'd like to analyze!")
+        throw new Error("Wrong website");
+    }
+    //url on game check
+    if (!gameURL.includes("chess.com/game/live")
+        && !gameURL.includes("chess.com/live#g=")
+        && !gameURL.includes("chess.com/game/daily")) {
+        alert("You are not on viewing a game! Press me when you are viewing the game you'd like to analyze! (when url contains chess.com/game/live)")
+        throw new Error("Not on game");
+    }
+
+    if(localStorage.getItem(gameURL)){
+        // this game was cached before!
+        window.open(localStorage.getItem(gameURL));
+        getCloserToShowingRatingWindow();
+        return;
+    }
+
+    const shareButton = getShareButton();
     
     if (!shareButton) {
         alert("I could not find the fen! The game is probably not finished. Try clicking me when the game is over.");
@@ -142,6 +168,7 @@ async function importGame() {
             const lichessGameWindow = window.open(lichessImportedGameURL);
             localStorage.setItem('extensionRatingWindowClosed', localStorage.getItem('extensionRatingWindowClosed')-1);
             localStorage.setItem(gameURL, lichessImportedGameURL);
+            getCloserToShowingRatingWindow();
             showRatingWindow();
         } else alert("Could not import game");
     });
@@ -188,69 +215,13 @@ function findElementByClassName(className, maxAttempts = Infinity, interval = 10
     });
   }
 
-  function showRatingWindow() {
-    if (localStorage.getItem('extensionRatingWindowClosed') > 0) {
-        return; // If so, do not show the rating window again
-    }
-    // Create a div element for the rating window
-    const ratingWindow = document.createElement('div');
-    ratingWindow.style.position = 'fixed';
-    ratingWindow.style.top = '40px'; // Adjust the top position as needed
-    ratingWindow.style.right = '10px'; // Adjust the right position as needed
-    ratingWindow.style.width = '30vw';
-    ratingWindow.style.backgroundColor = '#fff';
-    ratingWindow.style.padding = '20px';
-    ratingWindow.style.border = '1px solid #ccc';
-    ratingWindow.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
-    ratingWindow.style.textAlign = 'center';
-    ratingWindow.style.zIndex = 99999;
-    ratingWindow.innerHTML = `
-        <div style="display: inline-block; text-align: center;">
-        <p>Hey!</p>
-        <p>My name is Victor. I am a college student who made the Lichess-to-Chesscom extension! </p>
-        <p>I made it on my own time entirely for free.</p>
-        <p>I would really appreciate it if you could rate it on google chrome store!</p>
-            <div style="display: inline-block; text-align: left;">
-                <p>Thank you!</p>
-            </div>
-        </div>
-      <button id="rateButton" style="padding: 10px 20px; background-color: #4CAF50; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Rate Now</button>
-      <button id="dismissButton" style="margin-left: 10px; padding: 10px 20px; background-color: #ccc; color: #333; border: none; border-radius: 5px; cursor: pointer;">Dismiss</button>
-    `;
-  
-    // Append the rating window to the body
-    document.body.appendChild(ratingWindow);
-  
-    // Add event listeners to the rate and dismiss buttons
-    document.getElementById('rateButton').addEventListener('click', function() {
-      // Open the Chrome Web Store page for your extension where users can leave a review
-      window.open('https://chromewebstore.google.com/detail/chesscom-to-lichess/jblnpdempinkonbjejolagghdofaipjf/reviews', '_blank');
-      // You should replace 'your-extension-id' with the actual ID of your extension
-      ratingWindow.remove(); // Remove the rating window after opening the review page
-      localStorage.setItem('extensionRatingWindowClosed', Infinity);
-    });
-  
-    document.getElementById('dismissButton').addEventListener('click', function() {
-      // Dismiss the window without taking any action
-      ratingWindow.remove();
-      localStorage.setItem('extensionRatingWindowClosed', 10+Math.random() * 10);
-    });
-  }
-
 if(isChessCom){
-    // store url on load
-    let currentPage = window.location.href;
-
     // listen for changes, the event listeners don't seem to work
     setInterval(()=>{
-        if (currentPage != window.location.href)
-        {
-            currentPage = window.location.href;
-            checkToShowButton();
-        }
+        checkToShowButton();
     }, 500);
     checkToShowButton(); 
-    showRatingWindow();  
+      
     if(localStorage.getItem('extensionRatingWindowClosed') === null){
         localStorage.setItem('extensionRatingWindowClosed', 3);
     }
