@@ -28,7 +28,7 @@
   "content_scripts": [
     {
       "matches": ["https://www.chess.com/*", "https://lichess.org/*"],
-      "js": ["./scripts/injectHtmlButtonToPage.js", "./scripts/lichessPressAnalysis.js"]
+      "js": ["./scripts/ratingWindow.js", "./scripts/injectHtmlButtonToPage.js", "./scripts/lichessPressAnalysis.js"]
     }
   ],
   "manifest_version": 3
