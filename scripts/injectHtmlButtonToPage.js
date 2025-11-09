@@ -124,16 +124,17 @@ async function importGame() {
     }
     shareButton.click();
 
-    const pgnTabButton = await findElementByClassName("board-tab-item-underlined-component share-menu-tab-selector-tab");
+    const pgnTabButton = await waitForElement("#tab-pgn", 5000);
     if(!pgnTabButton){
-        console.log("Could not get the pgn");
+        console.log("Could not get the pgn tab button");
         return;
     }
+    pgnTabButton.click();
     
     //find pgn window and copy the text value
     const pgnTextArea = await findElementByClassName("share-menu-tab-pgn-textarea");
     if(!pgnTextArea){
-        console.log("Could not get the pgn");
+        console.log("Could not get the pgn text area");
         return;
     }
     let gamePGN = pgnTextArea.value;
@@ -214,6 +215,35 @@ function findElementByClassName(className, maxAttempts = Infinity, interval = 10
       search();
     });
   }
+/**
+ * Waits for an element to exist in the DOM.
+ * @param {string} selector - The CSS selector for the element (e.g., "#tab-pgn").
+ * @param {number} timeout - The maximum time to wait in milliseconds.
+ * @returns {Promise<Element|null>} - A promise that resolves with the element or null if timed out.
+ */
+function waitForElement(selector, timeout = 5000) {
+    return new Promise(resolve => {
+        const element = document.querySelector(selector);
+        if (element) {
+            return resolve(element);
+        }
+
+        const startTime = Date.now();
+        const interval = setInterval(() => {
+            const currentElement = document.querySelector(selector);
+            if (currentElement) {
+                clearInterval(interval);
+                return resolve(currentElement);
+            }
+
+            // Check for timeout
+            if (Date.now() - startTime >= timeout) {
+                clearInterval(interval);
+                return resolve(null);
+            }
+        }, 100); // Check every 100 milliseconds
+    });
+}
 
 if(isChessCom){
     // listen for changes, the event listeners don't seem to work
