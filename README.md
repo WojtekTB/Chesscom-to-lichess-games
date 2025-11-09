@@ -12,7 +12,7 @@ Lichess offers free computer analysis (there is a 35 per day limit).
 [Go here](https://addons.mozilla.org/en-US/firefox/addon/chess-com-to-lichess/)
 
 ## How to use it?
-Go to a chess.com game that is completed, and press the extension button or the [IMPORT] button.  
+Go to a chess.com game that is completed, and press the extension button or the **Lichess Analysis** button.  
 ![chesscom-to-lichess-example-0 4](https://user-images.githubusercontent.com/34536619/120743120-373c0a00-c4ad-11eb-9d28-ab38c06e5fba.gif)
 
 ## [Donations](https://www.buymeacoffee.com/17victork)
