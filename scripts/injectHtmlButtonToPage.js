@@ -58,14 +58,11 @@ function injectImportButton() {
 
 function shouldShowImportButton(){
     const currentUrl = window.location.href;
-    if(currentUrl.includes("chess.com/game/live")
+    if(currentUrl.includes("chess.com/game")
     || currentUrl.includes("chess.com/live#g=")
-    || currentUrl.includes("chess.com/game/daily")){
+    || currentUrl.includes("chess.com/play")){
         // if you are on live game but don't have a share button, don't show
-        if(currentUrl.includes("chess.com/game/live") && !getShareButton()){
-            return false;
-        }
-        return true;
+        return getShareButton();
     }
     return false;
 }
@@ -101,13 +98,6 @@ async function importGame() {
         alert("You are not on chess.com! Press me when you are viewing the game you'd like to analyze!")
         throw new Error("Wrong website");
     }
-    //url on game check
-    if (!gameURL.includes("chess.com/game/live")
-        && !gameURL.includes("chess.com/live#g=")
-        && !gameURL.includes("chess.com/game/daily")) {
-        alert("You are not on viewing a game! Press me when you are viewing the game you'd like to analyze! (when url contains chess.com/game/live)")
-        throw new Error("Not on game");
-    }
 
     if(localStorage.getItem(gameURL)){
         // this game was cached before!
@@ -124,29 +114,40 @@ async function importGame() {
     }
     shareButton.click();
 
-    const pgnTabButton = await findElementByClassName("board-tab-item-underlined-component share-menu-tab-selector-tab");
+    const pgnTabButton = await waitForElement("#tab-pgn", 5000);
     if(!pgnTabButton){
-        console.log("Could not get the pgn");
+        console.log("Could not get the pgn tab button");
         return;
     }
+    pgnTabButton.click();
     
     //find pgn window and copy the text value
-    const pgnTextArea = await findElementByClassName("share-menu-tab-pgn-textarea");
+    const pgnTextArea = await waitForElement(".share-menu-tab-pgn-textarea");
     if(!pgnTextArea){
-        console.log("Could not get the pgn");
+        console.log("Could not get the pgn text area");
         return;
     }
     let gamePGN = pgnTextArea.value;
     //close the share window
-    let closeButton = document.getElementsByClassName("icon-font-chess x icon-font-secondary")[0];
+    let closeButton = waitForElement(".cc-close-button-component");
+
+    if (closeButton) {
+        console.log("Found closeButton via waitForElement");
+    }
     if (!closeButton) {
         closeButton = document.getElementsByClassName("icon-font-chess x share-menu-close-icon")[0];
+        console.log("Found closeButton via getElementsByClassName");
     }
     if (!closeButton) {
-        closeButton = closeButton = document.querySelector('[aria-label="Close"]');;
+        closeButton = closeButton = document.querySelector('[aria-label="Close"]');
+        console.log("Found closeButton via aria label");
     }
     if (closeButton) {
-        closeButton.click();
+        try {
+            closeButton.click();
+        } catch (error) {
+            console.log("Could not click the found closeButton");
+        }
     }
     //make sure the game pgn has value, if not, need to stop
     if (!gamePGN.trim()) {
@@ -190,30 +191,46 @@ async function requestLichessURL(pgn, callback) {
             }
         });
 }
-function findElementByClassName(className, maxAttempts = Infinity, interval = 100, minDuration = 4000) {
+
+/**
+ * 🕵️ Listens for DOM changes and resolves a Promise when an element 
+ * matching the selector is found. This is more performant than polling.
+ * * @param {string} selector - The CSS selector for the element (e.g., "#tab-pgn").
+ * @param {number} timeout - The maximum time to wait in milliseconds.
+ * @returns {Promise<Element|null>} - A promise that resolves with the element or null if timed out.
+ */
+function waitForElement(selector, timeout = 5000) {
     return new Promise((resolve, reject) => {
-      let startTime = Date.now();
-      let attempts = 0;
-  
-      function search() {
-        const element = document.getElementsByClassName(className)[0];
-        
+        // 1. Check if the element already exists
+        const element = document.querySelector(selector);
         if (element) {
-          resolve(element);
-        } else {
-          attempts++;
-  
-          if (attempts < maxAttempts && (Date.now() - startTime) < minDuration) {
-            setTimeout(search, interval);
-          } else {
-            resolve(null);
-          }
+            return resolve(element);
         }
-      }
-  
-      search();
+
+        let timer = null;
+
+        // 2. Setup the observer
+        const observer = new MutationObserver((mutationsList, observer) => {
+            // Check for the element on every change
+            const targetElement = document.querySelector(selector);
+            if (targetElement) {
+                // Element found!
+                clearTimeout(timer);
+                observer.disconnect(); // Stop observing
+                resolve(targetElement);
+            }
+        });
+
+        // 3. Start observing the entire document body for new children/sub-trees
+        observer.observe(document.body, { childList: true, subtree: true });
+
+        // 4. Setup the timeout mechanism
+        timer = setTimeout(() => {
+            observer.disconnect(); // Stop observing on timeout
+            reject(new Error(`Timeout waiting for element: ${selector}`));
+        }, timeout);
     });
-  }
+}
 
 if(isChessCom){
     // listen for changes, the event listeners don't seem to work
