@@ -8,20 +8,12 @@ function checkToShowButton(){
     if(!document.importToLichessButton){
         document.importToLichessButton = injectImportButton();
     }
-    showRatingWindow();
-    const ratingWindow = getRatingWindow();
     if (shouldShowImportButton()) {
         document.importToLichessButton.hidden = false;
-        if(ratingWindow){
-            ratingWindow.hidden = false;
-        }
         return;
     }
     //don't do anything if not on live chess
     document.importToLichessButton.hidden = true;
-    if(ratingWindow){
-        ratingWindow.hidden = true;
-    }
 }
 
 function injectImportButton() {
@@ -102,7 +94,6 @@ async function importGame() {
     if(localStorage.getItem(gameURL)){
         // this game was cached before!
         window.open(localStorage.getItem(gameURL));
-        getCloserToShowingRatingWindow();
         return;
     }
 
@@ -166,11 +157,8 @@ async function importGame() {
     requestLichessURL(gamePGN, (url) => {
         if (url) {
             const lichessImportedGameURL = `${url}?from_chesscom=true`; 
-            const lichessGameWindow = window.open(lichessImportedGameURL);
-            localStorage.setItem('extensionRatingWindowClosed', localStorage.getItem('extensionRatingWindowClosed')-1);
+            window.open(lichessImportedGameURL);
             localStorage.setItem(gameURL, lichessImportedGameURL);
-            getCloserToShowingRatingWindow();
-            showRatingWindow();
         } else alert("Could not import game");
     });
 }
@@ -238,8 +226,4 @@ if(isChessCom){
         checkToShowButton();
     }, 500);
     checkToShowButton(); 
-      
-    if(localStorage.getItem('extensionRatingWindowClosed') === null){
-        localStorage.setItem('extensionRatingWindowClosed', 3);
-    }
 }
