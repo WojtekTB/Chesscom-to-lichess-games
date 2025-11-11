@@ -120,7 +120,7 @@ async function importGame() {
     }
     let gamePGN = pgnTextArea.value;
     //close the share window
-    let closeButton = waitForElement(".cc-close-button-component");
+    let closeButton = await waitForElement(".cc-close-button-component");
 
     if (closeButton) {
         console.log("Found closeButton via waitForElement");
@@ -130,7 +130,7 @@ async function importGame() {
         console.log("Found closeButton via getElementsByClassName");
     }
     if (!closeButton) {
-        closeButton = closeButton = document.querySelector('[aria-label="Close"]');
+        closeButton = document.querySelector('[aria-label="Close"]');
         console.log("Found closeButton via aria label");
     }
     if (closeButton) {
